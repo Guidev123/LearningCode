@@ -5,9 +5,9 @@ namespace User.API.Interfaces.Services
 {
     public interface ICustomerService
     {
-        Task CreateAsync(Customer customer);
-        Task<string> LoginAsync(LoginCustomerDTO login);
-        Task UpdateAsync(Customer customer);
+        Task CreateAsync(CreateCustomerDTO customerDTO);
+        Task<string> LoginAsync(LoginCustomerDTO customerDTO);
+        Task UpdateAsync(UpdateCustomerDTO customerDTO);
         Task SetCustomerAsDeleted(Guid id);
     }
 }

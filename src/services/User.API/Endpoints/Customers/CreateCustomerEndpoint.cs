@@ -1,4 +1,5 @@
-﻿using User.API.Interfaces.Services;
+﻿using User.API.DTOs;
+using User.API.Interfaces.Services;
 using User.API.Models;
 
 namespace User.API.Endpoints.Users
@@ -9,7 +10,7 @@ namespace User.API.Endpoints.Users
         //=> app.MapPost("/", HandleAsync)
         //       .Produces<Response<Customer?>>();
 
-        public static async Task<IResult> HandleAsync(Customer customer, ICustomerService customerService)
+        public static async Task<IResult> HandleAsync(CreateCustomerDTO customer, ICustomerService customerService)
         {
             return TypedResults.Ok();
         }

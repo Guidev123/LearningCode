@@ -15,63 +15,97 @@ namespace User.API.Services
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly IAuthService _authService = authService;
 
-        public async Task CreateAsync(Customer customer)
+        public async Task CreateAsync(CreateCustomerDTO customerDTO)
         {
-            if (!ExecuteValidation(new CustomerValidation(), customer))
+            try
             {
-                Notify("Cliente com credenciais inválidas");
-                return;
+                var customer = customerDTO.MapToEntity();
+
+                if (!ExecuteValidation(new CustomerValidation(), customer))
+                {
+                    Notify("Cliente com credenciais inválidas");
+                    return;
+                }
+                if (await _customerRepository.CustomerAlreadyExists(customer))
+                {
+                    Notify("Já existe um cliente com estes dados");
+                    return;
+                }
+
+                customer.CryptographyPassword(_authService.ComputeSha256Hash(customer.Password));
+
+                await _customerRepository.CreateCustomerAsync(customer);
             }
-            if (await _customerRepository.CustomerAlreadyExists(customer))
+            catch(Exception ex)
             {
-                Notify("Já existe um cliente com estes dados");
-                return;
+                Notify($"Erro: Ocorreu a exception: {ex.Message}");
             }
-
-            customer.CryptographyPassword(_authService.ComputeSha256Hash(customer.Password));
-
-            await _customerRepository.CreateCustomerAsync(customer);
-        }
-        public async Task UpdateAsync(Customer customer)
-        {
-            if (!ExecuteValidation(new CustomerValidation(), customer))
-            {
-                Notify("Cliente com credenciais inválidas");
-                return;
-            }
-
-            if (await _customerRepository.CustomerAlreadyExists(customer))
-            {
-                Notify("Já existe um cliente com estes dados");
-                return;
-            }
-
-            _customerRepository.UpdateCustomer(customer);
-        }
-        public async Task SetCustomerAsDeleted(Guid id)
-        {
-            var customer = await _customerRepository.GetCustomerByIdAsync(id);
-            if(customer is null)
-            {
-                Notify("O cliente não existe");
-                return;
-            }
-
-            customer.SetEntityAsDeleted();
-            _customerRepository.UpdateCustomer(customer);
         }
 
-        public async Task<string> LoginAsync(LoginCustomerDTO login)
+        public async Task<string> LoginAsync(LoginCustomerDTO customerDTO)
         {
-            var passwordHash = _authService.ComputeSha256Hash(login.Password);
-            var customer = await _customerRepository.GetCustomerByEmailAndPasswordAsync(login.Email, passwordHash);
-            if (customer is null)
+            try
             {
-                Notify("Usuario ou senha incorretos");
+                var passwordHash = _authService.ComputeSha256Hash(customerDTO.Password);
+                var customer = await _customerRepository.GetCustomerByEmailAndPasswordAsync(customerDTO.Email, passwordHash);
+                if (customer is null)
+                {
+                    Notify("Usuario ou senha incorretos");
+                    return string.Empty;
+                }
+
+                return _authService.GenerateJwtToken(customer.Email.Address, customer.UserType.ToString());
+            }
+            catch (Exception ex)
+            {
+                Notify($"Erro: Ocorreu a exception: {ex.Message}");
                 return string.Empty;
             }
+        }
+        public async Task UpdateAsync(UpdateCustomerDTO customerDTO)
+        {
+            try
+            {
+                var customer = customerDTO.MapToEntity();
 
-            return _authService.GenerateJwtToken(customer.Email.Address, customer.UserType.ToString());
+                if (!ExecuteValidation(new CustomerValidation(), customer))
+                {
+                    Notify("Cliente com credenciais inválidas");
+                    return;
+                }
+
+                if (await _customerRepository.CustomerAlreadyExists(customer))
+                {
+                    Notify("Já existe um cliente com estes dados");
+                    return;
+                }
+
+                _customerRepository.UpdateCustomer(customer);
+            }
+            catch (Exception ex)
+            {
+                Notify($"Erro: Ocorreu a exception: {ex.Message}");
+            }
+        }
+
+        public async Task SetCustomerAsDeleted(Guid id)
+        {
+            try
+            {
+                var customer = await _customerRepository.GetCustomerByIdAsync(id);
+                if(customer is null)
+                {
+                    Notify("O cliente não existe");
+                    return;
+                }
+
+                customer.SetEntityAsDeleted();
+                _customerRepository.UpdateCustomer(customer);
+            }
+            catch (Exception ex)
+            {
+                Notify($"Erro: Ocorreu a exception: {ex.Message}");
+            }
         }
     }
 }
