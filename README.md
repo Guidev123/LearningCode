@@ -21,6 +21,29 @@
  ![image](https://github.com/user-attachments/assets/89c8ad80-725f-4173-a82e-6e53511ee8fc)
 
 
+<h3>Exemplo de Requisição: /api/customers/register</h3>
+        <pre>
+        POST /api/customers/register
+        Body:
+        {
+          "fullName": "string",
+          "phone": "string",
+          "document": "string",
+          "email": "string",
+          "password": "string",
+          "birthDate": "2024-10-08T23:07:35.965Z"
+        }
+        </pre>
+
+  <h3>Exemplo de Requisição: /api/customers/login</h3>
+        <pre>
+        POST /api/customers/login
+        Body:
+        {
+          "email": "string",
+          "password": "string"
+        }
+        </pre>
 
   <h2>Observações</h2>
   <p>Certifique-se de sempre enviar o <strong>AcessSecretKey</strong> e o <strong>Token</strong> corretos, caso contrário, o acesso aos endpoints será negado.</p>
