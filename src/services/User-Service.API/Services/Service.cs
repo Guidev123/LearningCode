@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using User_Service.API.Interfaces.Events;
+using User_Service.API.Interfaces.Services;
 
 namespace User_Service.API.Services
 {
-    public abstract class Service(INotifyer notifyer)
+    public abstract class Service(INotifier notifier)
     {
-        private readonly INotifyer _notifyer = notifyer;
+        private readonly INotifier _notifier = notifier;
 
         protected void Notify(ValidationResult validationResult)
         {
@@ -15,7 +15,7 @@ namespace User_Service.API.Services
                 Notify(error.ErrorMessage);
             }
         }
-        protected void Notify(string errorMessage) => _notifyer.Handle(new(errorMessage));
+        protected void Notify(string errorMessage) => _notifier.Handle(new(errorMessage));
         protected bool ExecuteValidation<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : class
         {
             var validator = validation.Validate(entity);

@@ -3,24 +3,14 @@ using User_Service.API.ValueObjects;
 
 namespace User_Service.API.DTOs
 {
-    public class CreateCustomerDTO
+    public class CreateCustomerDTO(string fullName, string phone, string document, string email, string password, DateTime birthDate)
     {
-        public CreateCustomerDTO(string fullName, string phone, string document, string email, string password, DateTime birthDate)
-        {
-            FullName = fullName;
-            Phone = phone;
-            Document = document;
-            Email = email;
-            Password = password;
-            BirthDate = birthDate;
-        }
-
-        public string FullName { get; private set; } = string.Empty;
-        public string Phone { get; private set; } = string.Empty;
-        public string Document { get; private set; } = string.Empty;
-        public string Email { get; private set; } = string.Empty;
-        public string Password { get; private set; } = string.Empty;
-        public DateTime BirthDate { get; private set; }
+        public string FullName { get; private set; } = fullName;
+        public string Phone { get; private set; } = phone;
+        public string Document { get; private set; } = document;
+        public string Email { get; private set; } = email;
+        public string Password { get; private set; } = password;
+        public DateTime BirthDate { get; private set; } = birthDate;
 
         public Customer MapToEntity() => new(FullName,
                                             new Email(Email),

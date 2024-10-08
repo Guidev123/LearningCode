@@ -8,6 +8,6 @@ namespace User_Service.API.Interfaces.Services
         Task<bool> CreateAsync(Customer customer);
         Task<string> LoginAsync(LoginCustomerDTO customerDTO);
         Task<bool> UpdateAsync(UpdateCustomerDTO customerDTO);
-        Task<bool> SetCustomerAsDeleted(Guid id);
+        Task<bool> DeleteCustomerAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using User_Service.API.Interfaces.Services;
 
-namespace User_Service.API.Security
+namespace User_Service.API.Services.Authentication
 {
     public class AuthService(IConfiguration configuration) : IAuthService
     {
@@ -14,16 +14,13 @@ namespace User_Service.API.Security
 
         public string ComputeSha256Hash(string password)
         {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
 
-                StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
 
-                for (int i = 0; i < bytes.Length; i++) builder.Append(bytes[i].ToString("x2"));
+            for (int i = 0; i < bytes.Length; i++) builder.Append(bytes[i].ToString("x2"));
 
-                return builder.ToString();
-            }
+            return builder.ToString();
         }
 
         public string GenerateJwtToken(string email, string role)
@@ -35,17 +32,15 @@ namespace User_Service.API.Security
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim>
             {
-                new Claim("userName", email),
-                new Claim(ClaimTypes.Role, role),
+                new("userName", email),
+                new(ClaimTypes.Role, role),
             };
 
             var token = new JwtSecurityToken(issuer, audience, claims, null, DateTime.Now.AddDays(15), credentials);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var jwt = tokenHandler.WriteToken(token);
-
-            return jwt;
+            return tokenHandler.WriteToken(token);
         }
     }
 }

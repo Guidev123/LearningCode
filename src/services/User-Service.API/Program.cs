@@ -1,4 +1,5 @@
 using User_Service.API.Middlewares;
+using User_Service.API.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<AcessSecretKey>();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

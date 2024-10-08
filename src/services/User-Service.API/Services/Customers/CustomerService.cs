@@ -1,14 +1,13 @@
 ﻿using User_Service.API.DTOs;
-using User_Service.API.Interfaces.Events;
 using User_Service.API.Interfaces.Persistence;
 using User_Service.API.Interfaces.Services;
 using User_Service.API.Models;
 using User_Service.API.Models.Validations;
 
-namespace User_Service.API.Services
+namespace User_Service.API.Services.Customers
 {
-    public class CustomerService(ICustomerRepository customerRepository, IAuthService authService, INotifyer notifyer)
-               : Service(notifyer),
+    public class CustomerService(ICustomerRepository customerRepository, IAuthService authService, INotifier notifier)
+               : Service(notifier),
                  ICustomerService
     {
         private readonly ICustomerRepository _customerRepository = customerRepository;
@@ -90,7 +89,7 @@ namespace User_Service.API.Services
             }
         }
 
-        public async Task<bool> SetCustomerAsDeleted(Guid id)
+        public async Task<bool> DeleteCustomerAsync(Guid id)
         {
             try
             {

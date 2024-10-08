@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using User_Service.API.Events.Notify;
-using User_Service.API.Interfaces.Events;
+using User_Service.API.Interfaces.Services;
 
 namespace User_Service.API.Controllers
 {
     [ApiController]
-    public abstract class MainController(INotifyer notifyer) : ControllerBase
+    public abstract class MainController(INotifier notifier) : ControllerBase
     {
-        private readonly INotifyer _notifier = notifyer;
+        private readonly INotifier _notifier = notifier;
 
         protected ActionResult CustomResponse(object? result = null)
         {
