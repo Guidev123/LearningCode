@@ -1,9 +1,8 @@
-﻿using User_Service.API.Models.Validations;
-using UserService.API.DTOs;
+﻿using UserService.API.DTOs;
 using UserService.API.Interfaces.Persistence;
 using UserService.API.Interfaces.Services;
 using UserService.API.Models;
-using UserService.API.Services;
+using UserService.API.Models.Validations;
 
 namespace UserService.API.Services.Customers
 {

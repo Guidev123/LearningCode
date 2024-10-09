@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using User_Service.API.Models;
 using UserService.API.DTOs;
 using UserService.API.Interfaces.Persistence;
 using UserService.API.Interfaces.Services;

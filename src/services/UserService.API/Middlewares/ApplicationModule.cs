@@ -1,16 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
-using UserService.API.Data.Persistence;
 using UserService.API.Data;
-using UserService.API.Interfaces.Services;
+using UserService.API.Data.Persistence;
 using UserService.API.Data.Persistence.Repositories;
-using UserService.API.Services.Customers;
-using UserService.API.Services.Notification;
 using UserService.API.Interfaces.Persistence;
+using UserService.API.Interfaces.Services;
 using UserService.API.Services.Authentication;
+using UserService.API.Services.Customers;
+using UserService.API.Services.Notifications;
 
 namespace UserService.API.Middlewares
 {
@@ -71,7 +71,7 @@ namespace UserService.API.Middlewares
                                 Id = "Bearer"
                             }
                         },
-                        new string[] {}
+                        Array.Empty<string>()
                     }
                 });
                 c.AddSecurityDefinition("AcessSecretKey", new OpenApiSecurityScheme
@@ -93,7 +93,7 @@ namespace UserService.API.Middlewares
                                 Id = "AcessSecretKey"
                             }
                         },
-                        new string[] { }
+                        Array.Empty<string>()
                     }
                 });
             });

@@ -1,5 +1,5 @@
-﻿using User_Service.API.ValueObjects;
-using UserService.API.Models;
+﻿using UserService.API.Models;
+using UserService.API.ValueObjects;
 
 namespace UserService.API.DTOs
 {

@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using User_Service.API.Exceptions;
+using UserService.API.Exceptions;
 
 namespace UserService.API.ValueObjects
 {
