@@ -4,7 +4,6 @@
             <li>Login</li>
             <li>Criação de usuários</li>
             <li>Exclusão lógica de usuários</li>
-            <li>Edição de usuários</li>
         </ul>
 
   <h2>Autenticação</h2>
