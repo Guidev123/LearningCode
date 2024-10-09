@@ -60,35 +60,6 @@ namespace User_Service.API.Services.Customers
                 return string.Empty;
             }
         }
-        public async Task<bool> UpdateAsync(UpdateCustomerDTO customerDTO)
-        {
-            try
-            {
-                var customer = customerDTO.MapToEntity();
-
-                if (!ExecuteValidation(new CustomerValidation(), customer))
-                {
-                    Notify("Cliente com credenciais inválidas");
-                    return false;
-                }
-
-                if (await _customerRepository.CustomerAlreadyExists(customer))
-                {
-                    Notify("Já existe um cliente com estes dados");
-                    return false;
-                }
-
-                _customerRepository.UpdateCustomer(customer);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Notify($"Erro: Ocorreu a exception: {ex.Message}");
-                return false;
-            }
-        }
-
         public async Task<bool> DeleteCustomerAsync(Guid id)
         {
             try

@@ -18,16 +18,8 @@ namespace User_Service.API.Models
             BirthDate = birthDate;
             IsDeleted = false;
         }
-
-        public Customer(string phone, Email email, string password, string name)
-        {
-            FullName = name;
-            Phone = phone;
-            Email = email;
-            Password = password;
-        }
-
         protected Customer() { } // EF Relation
+
         public Guid Id { get; }
         public string FullName { get; private set; } = string.Empty;
         public string Phone { get; private set; } = string.Empty;
